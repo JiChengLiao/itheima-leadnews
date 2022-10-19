@@ -1,0 +1,16 @@
+package com.itheima.admin.mapper;
+
+import org.springframework.stereotype.Repository;
+import com.itheima.admin.pojo.AdUserOpertion;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+/**
+ * @description <p>管理员操作行为信息 Mapper 接口</p>
+ *
+ * @version 1.0
+ * @package com.itheima.admin.mapper
+ */
+@Repository
+public interface AdUserOpertionMapper extends BaseMapper<AdUserOpertion> {
+
+}
