@@ -14,6 +14,9 @@
     <description>所有feign pojo所在父工程</description>
     <modules>
         <module>itheima-leadnews-admin-api</module>
+        <module>itheima-leadnews-article-api</module>
+        <module>itheima-leadnews-user-api</module>
+        <module>itheima-leadnews-wemedia-api</module>
     </modules>
 
     <dependencies>
@@ -32,6 +35,10 @@
             <groupId>com.itheima</groupId>
             <artifactId>itheima-leadnews-common</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
         </dependency>
     </dependencies>
 </project>

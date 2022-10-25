@@ -1,0 +1,51 @@
+server:
+  port: 6002
+spring:
+  application:
+    name: leadnews-wemedia-gateway
+  cloud:
+    nacos:
+      server-addr: 192.168.211.128:8848
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]': # 匹配所有请求
+            allowedOrigins: "*" #跨域处理 允许所有的域
+            allowedHeaders: "*"
+            allowedMethods: # 支持的方法
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      routes:
+        # dfs文件微服
+        # http://localhost:9091/wemedia/MEDIA/wemedia/api/v1/material/upload_picture
+        # http://localhost:9091/wemedia/MEDIA/ nginx
+        # 经过网关时的路径为/wemedia/api/v1/material/upload_picture
+        - id: dfs
+          uri: lb://leadnews-dfs
+          predicates:
+            - Path=/wemedia/api/v1/material/upload_picture
+          filters:
+            # 重写路径
+            - RewritePath=/wemedia/api/v1/material/upload_picture,/dfs/upload
+            # 给请求头添加参数，将来微服就可以判断是否从网关中来的，只有从网关转发过来的，才处理。否则拒绝
+            # 变相保护文件微服。如果将来使用nacos做配置中心，随意变换鉴权的标识
+            - AddRequestHeader=from,wemedia-pic
+        # 只给自媒体登录使用
+        - id: wemedia-login
+          uri: lb://leadnews-wemedia
+          predicates:
+            # /wemedia/login/in
+            - Path=/wemedia/login/*
+          filters:
+            - StripPrefix=1
+        # 自媒体管理api
+        - id: wemedia
+          uri: lb://leadnews-wemedia
+          predicates:
+            # /wemedia/api/v1/material/list
+            - Path=/wemedia/api/v1/**
+          filters:
+            - StripPrefix=3
+

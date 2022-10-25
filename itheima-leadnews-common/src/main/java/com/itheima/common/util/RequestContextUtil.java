@@ -11,8 +11,8 @@ public class RequestContextUtil {
      * 获取登录的用户的ID 可以是自媒体账号 也可以是 平台账号 也可以是app账号
      * @return
      */
-    public static String getUserId(){
-        return RequestContextUtil.getHeader(SystemConstants.USER_HEADER_NAME);
+    public static Long getUserId(){
+        return Long.parseLong(RequestContextUtil.getHeader(SystemConstants.USER_HEADER_NAME));
     }
 
     public static String getHeader(String headerName){

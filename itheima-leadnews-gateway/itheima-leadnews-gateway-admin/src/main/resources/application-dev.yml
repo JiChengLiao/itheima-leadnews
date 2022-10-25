@@ -25,3 +25,12 @@ spring:
             - Path=/admin/**
           filters:
             - StripPrefix= 1
+
+
+        # 后台管理
+        - id: user
+          uri: lb://leadnews-user
+          predicates:
+            - Path=/user/api/v1/**
+          filters:
+            - StripPrefix=3
